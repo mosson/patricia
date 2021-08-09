@@ -29,4 +29,14 @@ Deno.test("Studying Patricia Tree", () => {
   assertEquals(patricia.search("THEN"), true);
   assertEquals(patricia.search("THE"), true);
   assertEquals(patricia.search("THIS"), true);
+
+  patricia.delete("TALK");
+  assertEquals(patricia.search("TALK"), false);
+  assertEquals(patricia.search("TALL"), true);
+
+  try {
+    patricia.delete("hoge");
+  } catch (_) {
+    assertEquals(false, true);
+  }
 });

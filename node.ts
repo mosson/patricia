@@ -66,7 +66,7 @@ export class Node {
     });
   }
 
-  private deleteChild(child: Node): Node[] {
+  public deleteChild(child: Node): Node[] {
     const i: number = this.children.indexOf(child);
     if (i >= 0) {
       return this.children.splice(i, 1)[0].children;

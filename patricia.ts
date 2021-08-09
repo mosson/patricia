@@ -25,4 +25,11 @@ export class Patricia {
     if (!node || node.children.indexOf(Patricia.leaf) === -1) return false;
     return true;
   }
+
+  // 葉ノードを削除するだけ
+  public delete(seq: string) {
+    const node: Node | undefined = this.root.search(seq);
+    if (!node || node.children.indexOf(Patricia.leaf) === -1) return;
+    node.deleteChild(Patricia.leaf);
+  }
 }
