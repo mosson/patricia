@@ -23,11 +23,15 @@ export class Node {
     this.children = children;
   }
 
-  // 入力文字の１文字目にマッチする枝があれば返却
-  public search(char: string): Node | undefined {
-    return this.children.find((child) => {
-      return child.data && child.data.substr(0, 1) === char;
-    });
+  public search(seq: string): Node | undefined {
+    const child = this.getNodeByFirstChar(seq.substr(0, 1));
+    if (!child) return undefined;
+    const matchedLen: number = Node.getMatchedLen(child, seq);
+    if (matchedLen === seq.length && seq.length === child.data.length) {
+      return child;
+    }
+    if (child.data.length > matchedLen) return undefined;
+    return child.search(seq.substr(matchedLen));
   }
 
   public traverseAndSplit(seq: string): AppendInfo | undefined {

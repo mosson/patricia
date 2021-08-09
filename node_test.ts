@@ -15,11 +15,23 @@ Deno.test("traverse", () => {
       info[0].children.push(leaf);
     }
   }
+
+  function isFound(seq: string): boolean {
+    const node: Node | undefined = root.search(seq);
+    if (!node) return false;
+    return node.children.indexOf(leaf) >= 0;
+  }
+
   insert("TAIL");
   assertEquals(root.children.length, 1);
   assertEquals(root.children[0].data, "TAIL");
   assertEquals(root.children[0].children.length, 1);
   assertEquals(root.children[0].children[0], leaf);
+
+  assertEquals(isFound("TAIL"), true);
+  assertEquals(isFound("TA"), false);
+  assertEquals(isFound("T"), false);
+  assertEquals(isFound("TAKE"), false);
 
   insert("TAKE");
   assertEquals(root.children.length, 1);
@@ -31,6 +43,11 @@ Deno.test("traverse", () => {
   assertEquals(root.children[0].children[1].children[0], leaf);
   assertEquals(root.children[0].children[0].children.length, 1);
   assertEquals(root.children[0].children[1].children.length, 1);
+
+  assertEquals(isFound("TAIL"), true);
+  assertEquals(isFound("TA"), false);
+  assertEquals(isFound("T"), false);
+  assertEquals(isFound("TAKE"), true);
 
   insert("TALL");
   insert("TALK");
@@ -45,6 +62,9 @@ Deno.test("traverse", () => {
   assertEquals(root.children[0].children[2].children[1].data, "K");
   assertEquals(root.children[0].children[2].children[1].children.length, 1);
   assertEquals(root.children[0].children[2].children[1].children[0], leaf);
+
+  assertEquals(isFound("TALL"), true);
+  assertEquals(isFound("TALK"), true);
 
   insert("THAT");
   insert("THEN");
@@ -80,4 +100,9 @@ Deno.test("traverse", () => {
   assertEquals(root.children[0].children[1].children[2].data, "IS");
   assertEquals(root.children[0].children[1].children[2].children.length, 1);
   assertEquals(root.children[0].children[1].children[2].children[0], leaf);
+
+  assertEquals(isFound("THAT"), true);
+  assertEquals(isFound("THEN"), true);
+  assertEquals(isFound("THE"), true);
+  assertEquals(isFound("THIS"), true);
 });
