@@ -38,7 +38,9 @@ export class Node {
     const matchedLen: number = Node.getMatchedLen(child, seq);
 
     // 何もしないパターン: seqとchild.dataがすべてマッチする
-    if (matchedLen >= seq.length) return undefined;
+    if (matchedLen === seq.length && seq.length === child.data.length) {
+      return undefined;
+    }
 
     if (child.data.length > matchedLen) { // 子ノードのデータが入力文字と途中まで一致している = 分割が必要
       const children: Node[] = this.deleteChild(child);

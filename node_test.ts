@@ -9,7 +9,10 @@ Deno.test("traverse", () => {
     const info: AppendInfo | undefined = root.traverseAndSplit(seq);
     if (!info) return;
 
+    if (info[1]) {
       info[0].children.push(new Node(info[1], [leaf]));
+    } else {
+      info[0].children.push(leaf);
     }
   }
   insert("TAIL");
@@ -44,8 +47,8 @@ Deno.test("traverse", () => {
   assertEquals(root.children[0].children[2].children[1].children[0], leaf);
 
   insert("THAT");
-  insert("THE");
   insert("THEN");
+  insert("THE");
   insert("THIS");
 
   assertEquals(root.children.length, 1);
@@ -63,16 +66,16 @@ Deno.test("traverse", () => {
 
   assertEquals(root.children[0].children[1].children[1].data, "E");
   assertEquals(root.children[0].children[1].children[1].children.length, 2);
-  assertEquals(root.children[0].children[1].children[1].children[0], leaf);
-  assertEquals(root.children[0].children[1].children[1].children[1].data, "N");
+  assertEquals(root.children[0].children[1].children[1].children[0].data, "N");
   assertEquals(
-    root.children[0].children[1].children[1].children[1].children.length,
+    root.children[0].children[1].children[1].children[0].children.length,
     1,
   );
   assertEquals(
-    root.children[0].children[1].children[1].children[1].children[0],
+    root.children[0].children[1].children[1].children[0].children[0],
     leaf,
   );
+  assertEquals(root.children[0].children[1].children[1].children[1], leaf);
 
   assertEquals(root.children[0].children[1].children[2].data, "IS");
   assertEquals(root.children[0].children[1].children[2].children.length, 1);
